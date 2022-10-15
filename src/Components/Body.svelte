@@ -3,38 +3,75 @@
 	let expanded2 = false;
 	let expanded3 = false;
 	let expanded4 = false;
+	let main;
+	let current = '#description';
 	// @ts-ignore
-	const focusFirstDropdownLink = ({ target }) => {
-		target.firstElementChild.focus();
+	const windowScroll = () => {
+		let section = main?.querySelectorAll('section');
+		section.forEach((sec) => {
+			let top = window.scrollY;
+			let offset = sec.offsetTop;
+			let height = sec.offsetHeight;
+			let id = sec.getAttribute('id');
+
+			if (top >= offset && top < offset + height) {
+				const targetedId = document?.querySelector(`[href='#${id}']`)?.getAttribute('href');
+				console.log(targetedId);
+				if (targetedId) {
+					current = targetedId;
+				}
+			}
+		});
 	};
-
-	// // let sections = document.querySelectorAll('section');
-	// let windowHeight = window.innerHeight;
-	// console.log(windowHeight);
-
-	// // window.addEventListener('scroll', function () {
-	// // 	const scrollTop = window.scrollY;
-	// // 	sections.forEach(function (section, i) {
-	// // 		if (
-	// // 			section.offsetTop < scrollTop + windowHeight / 2 &&
-	// // 			scrollTop < section.offsetTop + windowHeight / 2
-	// // 		) {
-	// // 			console.log(i);
-	// // 		}
-	// // 	});
-	// // });
 </script>
 
-<main>
+<svelte:window on:scroll={windowScroll} />
+<main bind:this={main}>
 	<div class="Hackules-navbar">
 		<div class="nav">
 			<ul>
-				<li class="selected hover:underline"><a href="#description">Instructor</a></li>
-				<li class="hover:underline"><a href="#instructor">Description</a></li>
-				<li class="hover:underline"><a href="#bullet">Bullet</a></li>
-				<li class="hover:underline"><a href="#syllabus">Syllabus</a></li>
-				<li class="hover:underline"><a href="#payment">Payment</a></li>
-				<li class="hover:underline"><a href="#certificate">Certificate</a></li>
+				<li class="hover:underline">
+					<a
+						href="#instructor"
+						class:selected={current === '#instructor'}
+						on:click={() => (current = '#instructor')}>Instructor</a
+					>
+				</li>
+				<li class="hover:underline">
+					<a
+						href="#description"
+						class:selected={current === '#description'}
+						on:click={() => (current = '#description')}>Description</a
+					>
+				</li>
+				<li class="hover:underline">
+					<a
+						href="#bullet"
+						class:selected={current === '#bullet'}
+						on:click={() => (current = '#bullet')}>Bullet</a
+					>
+				</li>
+				<li class="hover:underline">
+					<a
+						href="#syllabus"
+						class:selected={current === '#syllabus'}
+						on:click={() => (current = '#syllabus')}>Syllabus</a
+					>
+				</li>
+				<li class="hover:underline">
+					<a
+						href="#certificate"
+						class:selected={current === '#certificate'}
+						on:click={() => (current = '#certificate')}>Certificate</a
+					>
+				</li>
+				<li class="hover:underline">
+					<a
+						href="#payment"
+						class:selected={current === '#payment'}
+						on:click={() => (current = '#payment')}>Payment</a
+					>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -42,8 +79,8 @@
 		<!-- ---------------------Left Side Start------------------- -->
 		<div class="left-side">
 			<div class="leftSideItems ">
-				<section>
-					<div id="description" class="hackules-title">
+				<section id="instructor">
+					<div class="hackules-title">
 						<h1 class="desc text-5xl font-black">English For Kids</h1>
 					</div>
 
@@ -64,8 +101,8 @@
 					</div>
 				</section>
 
-				<section>
-					<div id="instructor" class="hackules-title">
+				<section id="description">
+					<div class="hackules-title">
 						<h1 class="text-2xl font-black">Description</h1>
 					</div>
 
@@ -88,8 +125,10 @@
 							maxime libero.
 						</p>
 					</div>
+				</section>
 
-					<div id="bullet" class="hackules-title">
+				<section id="bullet">
+					<div class="hackules-title">
 						<h1 class="text-2xl font-black">Bullet</h1>
 					</div>
 
@@ -151,8 +190,10 @@
 							</div>
 						</div>
 					</div>
+				</section>
 
-					<div id="syllabus" class="hackules-title">
+				<section id="syllabus">
+					<div class="hackules-title">
 						<h1 class="text-2xl font-black">Syllabus</h1>
 					</div>
 
@@ -168,7 +209,7 @@
 								<h1>English 1st paper</h1>
 								<img src="down.svg" alt="" width="20px" height="20px" />
 							</div>
-							<div class="contents" class:expanded on:transitionend={focusFirstDropdownLink}>
+							<div class:contents={expanded === false} class:expanded={expanded === true}>
 								<ul>
 									<div class="flex m-4 pt-5 border-t-4">
 										<img class="mr-3" src="pic.svg" alt="" height="30px" width="30px" />
@@ -201,7 +242,7 @@
 								<h1>Bangla 2nd paper</h1>
 								<img src="down.svg" alt="" width="20px" height="20px" />
 							</div>
-							<div class="contents" class:expanded2 on:transitionend={focusFirstDropdownLink}>
+							<div class="contents" class:expanded2>
 								<ul>
 									<div class="flex m-4 pt-5 border-t-4">
 										<img class="mr-3" src="pic.svg" alt="" height="30px" width="30px" />
@@ -233,7 +274,7 @@
 								<h1>English 2nd paper</h1>
 								<img src="down.svg" alt="" width="20px" height="20px" />
 							</div>
-							<div class="contents" class:expanded3 on:transitionend={focusFirstDropdownLink}>
+							<div class="contents" class:expanded3>
 								<ul>
 									<div class="flex m-4 pt-5 border-t-4">
 										<img class="mr-3" src="pic.svg" alt="" height="30px" width="30px" />
@@ -265,7 +306,7 @@
 								<h1>Bangla 1st paper</h1>
 								<img src="down.svg" alt="" width="20px" height="20px" />
 							</div>
-							<div class="contents" class:expanded4 on:transitionend={focusFirstDropdownLink}>
+							<div class="contents" class:expanded4>
 								<ul>
 									<div class="flex m-4 pt-5 border-t-4">
 										<img class="mr-3" src="pic.svg" alt="" height="30px" width="30px" />
@@ -289,8 +330,8 @@
 					</div>
 				</section>
 
-				<section>
-					<div id="certificate" class="hackules-title">
+				<section id="certificate">
+					<div class="hackules-title">
 						<h1 class="text-2xl font-black">Certificate</h1>
 					</div>
 
@@ -315,8 +356,8 @@
 					</div>
 				</section>
 
-				<section>
-					<div id="payment" class="hackules-title">
+				<section id="payment">
+					<div class="hackules-title">
 						<h1 class="text-2xl font-black">Payment</h1>
 					</div>
 
@@ -475,39 +516,43 @@
 		margin-bottom: 20px;
 		cursor: pointer;
 	}
-	.name1 {
-		transition: display 0.9s;
-	}
+	/* .name1 {
+		transition: 0.9s;
+	} */
 
 	.contents {
-		display: none;
-
-		transition: height 0.9s;
+		transition: all 1s ease;
+		max-height: 0;
+		opacity: 0;
+		visibility: hidden;
 	}
-
-	.expanded {
-		display: block;
-
+	.contents ul {
+		transition: all 1s ease;
+		max-height: 0;
+		opacity: 0;
+		visibility: hidden;
+	}
+	.expanded ul,
+	.expanded2 ul,
+	.expanded3 ul,
+	.expanded4 ul {
+		visibility: visible;
+		transition: all 1s ease;
+		max-height: 1000px;
 		opacity: 1;
 	}
-
-	.expanded2 {
-		display: block;
-		opacity: 1;
-	}
-
-	.expanded3 {
-		display: block;
-		opacity: 1;
-	}
-
+	.expanded,
+	.expanded2,
+	.expanded3,
 	.expanded4 {
-		display: block;
+		transition: all 1s ease;
+		visibility: visible;
+		max-height: 1000px;
 		opacity: 1;
 	}
 
 	.selected {
-		text-decoration: underline;
+		border: 1px solid #1daa55;
 	}
 	.desc {
 		font-weight: 1200;
